@@ -1,0 +1,124 @@
+This function, `RemoveOutlier`, removes outliers from a DataFrame `df` based on a specified variable `var`. Here's a breakdown of what the function does:
+
+1. **Calculate quartiles and interquartile range (IQR)**:
+   - `Q1` is the first quartile (25th percentile).
+   - `Q3` is the third quartile (75th percentile).
+   - `IQR` is the interquartile range.
+
+   ```python
+   Q1 = df[var].quantile(0.25)
+   Q3 = df[var].quantile(0.75)
+   IQR = Q3 - Q1
+   ```
+
+2. **Calculate upper and lower bounds**:
+   - The upper bound is `Q3 + 1.5 * IQR`.
+   - The lower bound is `Q1 - 1.5 * IQR`.
+
+   ```python
+   high, low = Q3 + 1.5 * IQR, Q1 - 1.5 * IQR
+   ```
+
+3. **Identify outliers**:
+   - Count the number of outliers which are either above the upper bound or below the lower bound.
+
+   ```python
+   count = df[(df[var] > high) | (df[var] < low)][var].count()
+   ```
+
+4. **Print information about outliers**:
+   - Print the highest and lowest allowed values for the variable.
+   - Print the total number of outliers in the variable.
+
+   ```python
+   print("Highest allowed in variable:", var, high)
+   print("lowest allowed in variable:", var, low)
+   print('Total outliers in:', var, ':', count)
+   ```
+
+5. **Remove outliers**:
+   - Filter the DataFrame to include only the rows where the variable `var` is within the bounds.
+
+   ```python
+   df = df[((df[var] >= low) & (df[var] <= high))]
+   ```
+
+6. **Return the DataFrame without outliers**:
+
+   ```python
+   return df
+   ```
+
+This function calculates the IQR, identifies outliers, removes them, and returns the DataFrame without outliers.Sure, here's a brief explanation of the concepts you asked for:
+
+### WAP (Wireless Application Protocol):
+
+- **Definition:**
+  - Wireless Application Protocol (WAP) is a technical standard for accessing information over a mobile wireless network.
+
+- **Key Points:**
+  - WAP allows mobile devices to access web content in a format optimized for small screens and limited bandwidth.
+  - It uses markup languages like Wireless Markup Language (WML) for content authoring and Wireless Session Protocol (WSP) for session management.
+
+### WML (Wireless Markup Language):
+
+- **Definition:**
+  - Wireless Markup Language (WML) is a markup language used to create content for WAP-enabled devices.
+
+- **Key Points:**
+  - WML is based on XML and is designed for small screens and limited bandwidth.
+  - It allows developers to create web pages specifically for mobile devices, providing a simpler and faster browsing experience.
+
+### .NET Framework:
+
+- **Definition:**
+  - The .NET Framework is a software development platform developed by Microsoft.
+
+- **Key Points:**
+  - It provides a comprehensive and consistent programming model for building desktop, web, and mobile applications.
+  - The .NET Framework consists of a large class library called the Framework Class Library (FCL) and a runtime environment called the Common Language Runtime (CLR).
+  - The CLR provides features such as memory management, garbage collection, and exception handling, while the FCL provides a wide range of pre-built functionality for common programming tasks.
+  - .NET supports multiple programming languages such as C#, VB.NET, and F#, allowing developers to choose the language that best suits their needs.
+
+I hope this helps! Let me know if you need further clarification.
+
+
+
+
+This function, `BuildModel`, builds and evaluates a linear regression model. Here's what the function does:
+
+1. **Model Building**:
+   - It creates a linear regression model using `LinearRegression()` from scikit-learn.
+   - The model is then trained using the training data `(xtrain, ytrain)`.
+
+   ```python
+   model = LinearRegression()
+   model = model.fit(xtrain, ytrain)  # Training
+   ```
+
+2. **Model Evaluation**:
+   - It uses the trained model to make predictions on the test data `(xtest)`.
+   - It calculates the mean squared error (MSE) as a measure of the model's performance.
+
+   ```python
+   ypred = model.predict(xtest)
+   print(np.mean((ytest - ypred)**2))
+   ```
+
+   Here, `np.mean((ytest - ypred)**2)` calculates the mean squared error between the actual `ytest` values and the predicted `ypred` values.
+
+By printing the mean squared error, this function provides an indication of how well the linear regression model is performing on the test data. Lower mean squared error values indicate better performance.
+
+
+
+Here's what the code does:
+
+```python
+X = df[['ptratio', 'lstat']]
+Y = df['indus']
+```
+
+- `X`: This variable is assigned the DataFrame `df` with columns 'ptratio' and 'lstat'. It selects these two columns from the DataFrame to be used as the independent variables for modeling.
+- `Y`: This variable is assigned the 'indus' column from the DataFrame `df`. It selects this column to be used as the dependent variable for modeling.
+
+In summary, `X` contains the features 'ptratio' and 'lstat', and `Y` contains the target variable 'indus'. These variables are prepared to be used as input for building a predictive model, such as linear regression.
